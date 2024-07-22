@@ -1,0 +1,736 @@
+import { ItemIDs } from "./items";
+
+const RAW_LOCATIONS = [
+  {
+    name: "Blood Kelp Trench Wreck - Outside Databox",
+    position: { x: -1234.3, y: -349.7, z: -396.0 },
+    id: 33000,
+  },
+  {
+    name: "Blood Kelp Trench Wreck - Inside Databox",
+    position: { x: -1208.0, y: -349.6, z: -383.0 },
+    id: 33001,
+  },
+  {
+    name: "Blood Kelp Trench Wreck - PDA",
+    position: { x: -1210.6, y: -340.7, z: -393.4 },
+    id: 33002,
+  },
+  {
+    name: "Bulb Zone West Wreck - Outside Databox",
+    position: { x: 903.8, y: -220.3, z: 590.9 },
+    id: 33003,
+  },
+  {
+    name: "Bulb Zone West Wreck - Under Databox",
+    position: { x: 910.9, y: -201.8, z: 623.5 },
+    id: 33004,
+  },
+  {
+    name: "Bulb Zone West Wreck - Inside Databox",
+    need_laser_cutter: true,
+    position: { x: 914.9, y: -202.1, z: 611.8 },
+    id: 33005,
+  },
+  {
+    name: "Bulb Zone West Wreck - PDA",
+    need_laser_cutter: true,
+    position: { x: 912.6, y: -202.0, z: 609.5 },
+    id: 33006,
+  },
+  {
+    name: "Bulb Zone East Wreck - Databox",
+    position: { x: 1327.1, y: -234.9, z: 575.8 },
+    id: 33007,
+  },
+  {
+    name: "Dunes North Wreck - Outside Databox",
+    position: { x: -1407.7, y: -344.2, z: 721.5 },
+    id: 33008,
+  },
+  {
+    name: "Dunes North Wreck - Office Databox",
+    position: { x: -1393.9, y: -329.7, z: 733.5 },
+    id: 33009,
+  },
+  {
+    name: "Dunes North Wreck - PDA",
+    position: { x: -1396.3, y: -330.8, z: 730.0 },
+    id: 33010,
+  },
+  {
+    name: "Dunes North Wreck - Cargo Databox",
+    need_laser_cutter: true,
+    position: { x: -1409.8, y: -332.4, z: 706.9 },
+    id: 33011,
+  },
+  {
+    name: "Dunes West Wreck - Databox",
+    position: { x: -1626.2, y: -357.5, z: 99.5 },
+    id: 33012,
+  },
+  {
+    name: "Dunes East Wreck - Outside Databox",
+    position: { x: -1196.3, y: -223.0, z: 12.5 },
+    id: 33013,
+  },
+  {
+    name: "Dunes East Wreck - Inside Databox",
+    position: { x: -1206.4, y: -225.6, z: 4.0 },
+    id: 33014,
+  },
+  {
+    name: "Grand Reef North Wreck - Outside Databox",
+    position: { x: -269.7, y: -262.8, z: -764.3 },
+    id: 33015,
+  },
+  {
+    name: "Grand Reef North Wreck - Elevator Databox",
+    need_laser_cutter: true,
+    position: { x: -285.8, y: -240.2, z: -786.5 },
+    id: 33016,
+  },
+  {
+    name: "Grand Reef North Wreck - Bottom Databox",
+    position: { x: -285.2, y: -262.4, z: -788.4 },
+    id: 33017,
+  },
+  {
+    name: "Grand Reef North Wreck - Hangar PDA",
+    position: { x: -272.5, y: -254.7, z: -788.5 },
+    id: 33018,
+  },
+  {
+    name: "Grand Reef South Wreck - Trench Databox",
+    position: { x: -850.9, y: -473.2, z: -1414.6 },
+    id: 33019,
+  },
+  {
+    name: "Grand Reef South Wreck - Comms Databox",
+    need_laser_cutter: true,
+    position: { x: -889.4, y: -433.8, z: -1424.8 },
+    id: 33020,
+  },
+  {
+    name: "Grand Reef South Wreck - Outside Databox",
+    position: { x: -862.4, y: -437.5, z: -1444.1 },
+    id: 33021,
+  },
+  {
+    name: "Grand Reef South Wreck - PDA",
+    position: { x: -887.9, y: -446.0, z: -1422.7 },
+    id: 33022,
+  },
+  {
+    name: "Grassy Plateaus South Wreck - Databox",
+    position: { x: -23.3, y: -105.8, z: -604.2 },
+    id: 33023,
+  },
+  {
+    name: "Grassy Plateaus South Wreck - PDA",
+    position: { x: -27.3, y: -106.8, z: -607.2 },
+    id: 33024,
+  },
+  {
+    name: "Grassy Plateaus East Wreck - Breach Databox",
+    need_laser_cutter: true,
+    position: { x: 313.9, y: -91.8, z: 432.6 },
+    id: 33025,
+  },
+  {
+    name: "Grassy Plateaus East Wreck - Hangar Databox",
+    need_laser_cutter: true,
+    position: { x: 319.4, y: -104.3, z: 441.5 },
+    id: 33026,
+  },
+  {
+    name: "Grassy Plateaus West Wreck - Locker PDA",
+    position: { x: -632.3, y: -75.0, z: -8.9 },
+    id: 33027,
+  },
+  {
+    name: "Grassy Plateaus West Wreck - Data Terminal",
+    position: { x: -664.4, y: -97.8, z: -8.0 },
+    id: 33028,
+  },
+  {
+    name: "Grassy Plateaus Southwest Wreck - Databox",
+    need_laser_cutter: true,
+    position: { x: -421.4, y: -107.8, z: -266.5 },
+    id: 33029,
+  },
+  {
+    name: "Safe Shallows Wreck - PDA",
+    position: { x: -44.0, y: -29.1, z: -403.6 },
+    id: 33030,
+  },
+  {
+    name: "Kelp Forest Wreck - Databox",
+    position: { x: -317.6, y: -78.8, z: 247.4 },
+    id: 33031,
+  },
+  {
+    name: "Kelp Forest Wreck - PDA",
+    position: { x: 63.2, y: -38.5, z: 382.9 },
+    id: 33032,
+  },
+  {
+    name: "Mountains West Wreck - Outside Databox",
+    position: { x: 740.3, y: -389.2, z: 1179.8 },
+    id: 33033,
+  },
+  {
+    name: "Mountains West Wreck - Data Terminal",
+    need_laser_cutter: true,
+    position: { x: 703.7, y: -365.9, z: 1199.3 },
+    id: 33034,
+  },
+  {
+    name: "Mountains West Wreck - Hangar Databox",
+    need_laser_cutter: true,
+    position: { x: 698.2, y: -350.8, z: 1186.9 },
+    id: 33035,
+  },
+  {
+    name: "Mountains West Wreck - Office Databox",
+    position: { x: 676.3, y: -343.6, z: 1204.6 },
+    id: 33036,
+  },
+  {
+    name: "Mountains East Wreck - Comms Databox",
+    position: { x: 1068.5, y: -283.4, z: 1345.3 },
+    id: 33037,
+  },
+  {
+    name: "Mountains East Wreck - Outside Databox",
+    position: { x: 1075.7, y: -288.9, z: 1321.8 },
+    id: 33038,
+  },
+  {
+    name: "Northwestern Mushroom Forest Wreck - Cargo Databox",
+    need_laser_cutter: true,
+    position: { x: -655.1, y: -109.6, z: 791.0 },
+    id: 33039,
+  },
+  {
+    name: "Northwestern Mushroom Forest Wreck - Office Databox",
+    position: { x: -663.4, y: -111.9, z: 777.9 },
+    id: 33040,
+  },
+  {
+    name: "Northwestern Mushroom Forest Wreck - PDA",
+    position: { x: -662.2, y: -113.4, z: 777.7 },
+    id: 33041,
+  },
+  {
+    name: "Sea Treader's Path Wreck - Outside Databox",
+    position: { x: -1161.1, y: -191.7, z: -758.3 },
+    id: 33042,
+  },
+  {
+    name: "Sea Treader's Path Wreck - Hangar Databox",
+    need_laser_cutter: true,
+    position: { x: -1129.5, y: -155.2, z: -729.3 },
+    id: 33043,
+  },
+  {
+    name: "Sea Treader's Path Wreck - Lobby Databox",
+    position: { x: -1115.9, y: -175.3, z: -724.5 },
+    id: 33044,
+  },
+  {
+    name: "Sea Treader's Path Wreck - PDA",
+    position: { x: -1136.8, y: -157.0, z: -734.6 },
+    id: 33045,
+  },
+  {
+    name: "Sparse Reef Wreck - Locker Databox",
+    need_laser_cutter: true,
+    position: { x: -789.8, y: -216.1, z: -711.0 },
+    id: 33046,
+  },
+  {
+    name: "Sparse Reef Wreck - Outside Databox",
+    position: { x: -810.7, y: -209.3, z: -685.5 },
+    id: 33047,
+  },
+  {
+    name: "Sparse Reef Wreck - Lab Databox",
+    need_laser_cutter: true,
+    position: { x: -795.5, y: -204.1, z: -774.7 },
+    id: 33048,
+  },
+  {
+    name: "Underwater Islands Wreck - Outside Databox",
+    position: { x: -170.8, y: -187.6, z: 880.7 },
+    id: 33049,
+  },
+  {
+    name: "Underwater Islands Wreck - Hangar Databox",
+    need_laser_cutter: true,
+    position: { x: -138.4, y: -193.6, z: 888.7 },
+    id: 33050,
+  },
+  {
+    name: "Underwater Islands Wreck - Data Terminal",
+    need_laser_cutter: true,
+    position: { x: -130.7, y: -193.2, z: 883.3 },
+    id: 33051,
+  },
+  {
+    name: "Underwater Islands Wreck - Cable Databox",
+    position: { x: -137.8, y: -193.4, z: 879.4 },
+    id: 33052,
+  },
+  {
+    name: "Underwater Islands Wreck - Pipes Databox 1",
+    need_propulsion_cannon: true,
+    position: { x: -124.4, y: -200.7, z: 853.0 },
+    id: 33053,
+  },
+  {
+    name: "Underwater Islands Wreck - Pipes Databox 2",
+    need_propulsion_cannon: true,
+    position: { x: -126.8, y: -201.1, z: 852.1 },
+    id: 33054,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Bedroom Databox",
+    position: { x: -643.8, y: -509.9, z: -941.9 },
+    id: 33055,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Observatory Databox",
+    position: { x: -635.1, y: -502.7, z: -951.4 },
+    id: 33056,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Bedroom PDA",
+    position: { x: -645.8, y: -508.7, z: -943.0 },
+    id: 33057,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Outside PDA",
+    position: { x: -630.5, y: -511.1, z: -936.1 },
+    id: 33058,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Observatory PDA",
+    position: { x: -647.7, y: -502.6, z: -935.8 },
+    id: 33059,
+  },
+  {
+    name: "Degasi Seabase - Deep Grand Reef - Lab PDA",
+    position: { x: -639.6, y: -505.9, z: -946.6 },
+    id: 33060,
+  },
+  {
+    name: "Floating Island - Lake PDA",
+    position: { x: -707.2, y: 0.5, z: -1096.7 },
+    id: 33061,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - Databox",
+    position: { x: -765.7, y: 17.6, z: -1116.4 },
+    id: 33062,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - Room PDA",
+    position: { x: -754.9, y: 14.6, z: -1108.9 },
+    id: 33063,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - Green Wall PDA",
+    position: { x: -765.3, y: 14.1, z: -1115.0 },
+    id: 33064,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - Corridor PDA",
+    position: { x: -758.6, y: 14.1, z: -1111.3 },
+    id: 33065,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - North Observatory PDA",
+    position: { x: -805.4, y: 76.9, z: -1055.7 },
+    id: 33066,
+  },
+  {
+    name: "Degasi Seabase - Floating Island - South Observatory PDA",
+    position: { x: -715.9, y: 75.4, z: -1168.8 },
+    id: 33067,
+  },
+  {
+    name: "Jellyshroom Cave - PDA",
+    position: { x: -540.5, y: -250.8, z: -83.4 },
+    id: 33068,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Bedroom Databox",
+    position: { x: 110.6, y: -264.9, z: -369.0 },
+    id: 33069,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Detached PDA",
+    position: { x: 80.6, y: -268.6, z: -358.3 },
+    id: 33070,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Office PDA",
+    position: { x: 78.2, y: -265.0, z: -373.4 },
+    id: 33071,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Locker PDA",
+    position: { x: 85.1, y: -264.1, z: -372.8 },
+    id: 33072,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Bedroom PDA",
+    position: { x: 112.3, y: -264.9, z: -369.3 },
+    id: 33073,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Observatory PDA",
+    position: { x: 95.5, y: -258.9, z: -366.5 },
+    id: 33074,
+  },
+  {
+    name: "Lifepod 2 - Databox",
+    position: { x: -483.6, y: -504.7, z: 1326.6 },
+    id: 33075,
+  },
+  {
+    name: "Lifepod 2 - PDA",
+    position: { x: -481.4, y: -503.6, z: 1324.1 },
+    id: 33076,
+  },
+  {
+    name: "Lifepod 3 - Databox",
+    position: { x: -34.2, y: -22.4, z: 410.5 },
+    id: 33077,
+  },
+  {
+    name: "Lifepod 3 - PDA",
+    position: { x: -33.8, y: -22.5, z: 408.8 },
+    id: 33078,
+  },
+  {
+    name: "Lifepod 4 - Databox",
+    position: { x: 712.4, y: -3.4, z: 160.8 },
+    id: 33079,
+  },
+  {
+    name: "Lifepod 4 - PDA",
+    position: { x: 712.0, y: -3.5, z: 161.5 },
+    id: 33080,
+  },
+  {
+    name: "Lifepod 6 - Databox",
+    position: { x: 358.7, y: -117.1, z: 306.8 },
+    id: 33081,
+  },
+  {
+    name: "Lifepod 6 - Inside PDA",
+    position: { x: 361.8, y: -116.2, z: 309.5 },
+    id: 33082,
+  },
+  {
+    name: "Lifepod 6 - Outside PDA",
+    position: { x: 359.9, y: -117.0, z: 312.1 },
+    id: 33083,
+  },
+  {
+    name: "Lifepod 7 - PDA",
+    position: { x: -56.0, y: -182.0, z: -1039.0 },
+    id: 33084,
+  },
+  {
+    name: "Lifepod 12 - Databox",
+    position: { x: 1119.5, y: -271.7, z: 561.7 },
+    id: 33085,
+  },
+  {
+    name: "Lifepod 12 - PDA",
+    position: { x: 1116.1, y: -271.3, z: 566.9 },
+    id: 33086,
+  },
+  {
+    name: "Lifepod 13 - Databox",
+    position: { x: -926.4, y: -185.2, z: 501.8 },
+    id: 33087,
+  },
+  {
+    name: "Lifepod 13 - PDA",
+    position: { x: -926.8, y: -184.4, z: 506.6 },
+    id: 33088,
+  },
+  {
+    name: "Lifepod 17 - PDA",
+    position: { x: -514.5, y: -98.1, z: -56.5 },
+    id: 33089,
+  },
+  {
+    name: "Lifepod 19 - Databox",
+    position: { x: -809.8, y: -302.2, z: -876.9 },
+    id: 33090,
+  },
+  {
+    name: "Lifepod 19 - Outside PDA",
+    position: { x: -806.1, y: -294.1, z: -866.0 },
+    id: 33091,
+  },
+  {
+    name: "Lifepod 19 - Inside PDA",
+    position: { x: -810.5, y: -299.4, z: -873.1 },
+    id: 33092,
+  },
+  {
+    name: "Aurora Seamoth Bay - Upgrade Console",
+    need_propulsion_cannon: true,
+    need_repair_tool: true,
+    position: { x: 903.5, y: -0.2, z: 16.1 },
+    id: 33093,
+  },
+  {
+    name: "Aurora Drive Room - Upgrade Console",
+    need_propulsion_cannon: true,
+    position: { x: 872.5, y: 2.7, z: -0.7 },
+    id: 33094,
+  },
+  {
+    name: "Aurora Prawn Suit Bay - Upgrade Console",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 991.6, y: 3.2, z: -31.0 },
+    id: 33095,
+  },
+  {
+    name: "Aurora - Office PDA",
+    position: { x: 952.1, y: 41.2, z: 113.9 },
+    id: 33096,
+  },
+  {
+    name: "Aurora - Corridor PDA",
+    position: { x: 977.2, y: 39.1, z: 83.0 },
+    id: 33097,
+  },
+  {
+    name: "Aurora - Cargo Bay PDA",
+    need_propulsion_cannon: true,
+    position: { x: 954.9, y: 11.2, z: 3.4 },
+    id: 33098,
+  },
+  {
+    name: "Aurora - Seamoth Bay PDA",
+    need_propulsion_cannon: true,
+    need_repair_tool: true,
+    position: { x: 907.1, y: -1.5, z: 15.3 },
+    id: 33099,
+  },
+  {
+    name: "Aurora - Medkit Locker PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 951.8, y: -2.3, z: -34.7 },
+    id: 33100,
+  },
+  {
+    name: "Aurora - Locker PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 952.0, y: -3.7, z: -23.4 },
+    id: 33101,
+  },
+  {
+    name: "Aurora - Canteen PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 986.5, y: 9.6, z: -48.6 },
+    id: 33102,
+  },
+  {
+    name: "Aurora - Cabin 4 PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 951.3, y: 11.2, z: -51.0 },
+    id: 33103,
+  },
+  {
+    name: "Aurora - Cabin 7 PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 967.1, y: 10.4, z: -47.4 },
+    id: 33104,
+  },
+  {
+    name: "Aurora - Cabin 1 PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 964.1, y: 11.1, z: -61.9 },
+    id: 33105,
+  },
+  {
+    name: "Aurora - Captain PDA",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 971.2, y: 10.8, z: -70.4 },
+    id: 33106,
+  },
+  {
+    name: "Aurora - Ring PDA",
+    need_propulsion_cannon: true,
+    position: { x: 1033.6, y: -8.5, z: 16.2 },
+    id: 33107,
+  },
+  {
+    name: "Aurora - Lab PDA",
+    need_propulsion_cannon: true,
+    position: { x: 1032.5, y: -7.8, z: 32.4 },
+    id: 33108,
+  },
+  {
+    name: "Aurora - Office Data Terminal",
+    position: { x: 945.8, y: 40.8, z: 115.1 },
+    id: 33109,
+  },
+  {
+    name: "Aurora - Captain Data Terminal",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 974.8, y: 10.0, z: -77.0 },
+    id: 33110,
+  },
+  {
+    name: "Aurora - Battery Room Data Terminal",
+    need_laser_cutter: true,
+    need_propulsion_cannon: true,
+    position: { x: 1040.8, y: -11.4, z: -3.4 },
+    id: 33111,
+  },
+  {
+    name: "Aurora - Lab Data Terminal",
+    need_propulsion_cannon: true,
+    position: { x: 1029.5, y: -8.7, z: 35.9 },
+    id: 33112,
+  },
+  {
+    name: "Quarantine Enforcement Platform's - Upper Alien Data Terminal",
+    position: { x: 432.2, y: 3.0, z: 1193.2 },
+    id: 33113,
+  },
+  {
+    name: "Quarantine Enforcement Platform's - Mid Alien Data Terminal",
+    position: { x: 474.4, y: -4.5, z: 1224.4 },
+    id: 33114,
+  },
+  {
+    name: "Dunes Sanctuary - Alien Data Terminal",
+    position: { x: -1224.2, y: -400.4, z: 1057.9 },
+    id: 33115,
+  },
+  {
+    name: "Deep Sparse Reef Sanctuary - Alien Data Terminal",
+    position: { x: -895.5, y: -311.6, z: -838.1 },
+    id: 33116,
+  },
+  {
+    name: "Northern Blood Kelp Zone Sanctuary - Alien Data Terminal",
+    position: { x: -642.9, y: -563.5, z: 1485.5 },
+    id: 33117,
+  },
+  {
+    name: "Lost River Laboratory Cache - Alien Data Terminal",
+    position: { x: -1112.3, y: -687.3, z: -695.5 },
+    id: 33118,
+  },
+  {
+    name: "Disease Research Facility - Upper Alien Data Terminal",
+    position: { x: -280.2, y: -804.3, z: 305.1 },
+    id: 33119,
+  },
+  {
+    name: "Disease Research Facility - Mid Alien Data Terminal",
+    position: { x: -267.9, y: -806.6, z: 250.0 },
+    id: 33120,
+  },
+  {
+    name: "Disease Research Facility - Lower Alien Data Terminal",
+    position: { x: -286.2, y: -815.6, z: 297.8 },
+    id: 33121,
+  },
+  {
+    name: "Alien Thermal Plant - Entrance Alien Data Terminal",
+    position: { x: -71.3, y: -1227.2, z: 104.8 },
+    id: 33122,
+  },
+  {
+    name: "Alien Thermal Plant - Green Alien Data Terminal",
+    position: { x: -38.7, y: -1226.6, z: 111.8 },
+    id: 33123,
+  },
+  {
+    name: "Alien Thermal Plant - Yellow Alien Data Terminal",
+    position: { x: -30.4, y: -1220.3, z: 111.8 },
+    id: 33124,
+  },
+  {
+    name: "Primary Containment Facility's Antechamber - Alien Data Terminal",
+    position: { x: 245.8, y: -1430.6, z: -311.5 },
+    id: 33125,
+  },
+  {
+    name: "Primary Containment Facility's Egg Laboratory - Alien Data Terminal",
+    position: { x: 165.5, y: -1442.4, z: -385.8 },
+    id: 33126,
+  },
+  {
+    name: "Primary Containment Facility's Pipe Room - Alien Data Terminal",
+    position: { x: 348.7, y: -1443.5, z: -291.9 },
+    id: 33127,
+  },
+  {
+    name: "Grassy Plateaus West Wreck - Beam PDA",
+    position: { x: -641.8, y: -111.3, z: -19.7 },
+    id: 33128,
+  },
+  {
+    name: "Floating Island - Cave Entrance PDA",
+    position: { x: -748.9, y: 14.4, z: -1179.5 },
+    id: 33129,
+  },
+  {
+    name: "Degasi Seabase - Jellyshroom Cave - Outside PDA",
+    position: { x: 83.2, y: -276.4, z: -345.5 },
+    id: 33130,
+  },
+];
+
+export type CheckLocation = {
+  name: string;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  id: number;
+  needed_items: Set<number>;
+  far: boolean;
+};
+
+export const LOCATIONS = RAW_LOCATIONS.map((raw_loc) => {
+  const loc: CheckLocation = {
+    name: raw_loc.name,
+    position: raw_loc.position,
+    id: raw_loc.id,
+    needed_items: new Set(),
+    far: false,
+  };
+  if (raw_loc.need_laser_cutter) loc.needed_items.add(ItemIDs.LaserCutter);
+  if (raw_loc.need_propulsion_cannon)
+    loc.needed_items.add(ItemIDs.PropulsionCannon);
+  const { x, y, z } = raw_loc.position;
+  if ((x - 1038.0) ** 2 + y ** 2 + (z - -163.1) ** 2 < 950 ** 2)
+    loc.needed_items.add(ItemIDs.RadiationSuit);
+  loc.far = x ** 2 + z ** 2 > 800 ** 2 || y < -200;
+  return loc;
+});

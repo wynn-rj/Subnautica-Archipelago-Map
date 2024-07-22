@@ -1,0 +1,35 @@
+items = {
+    35001: (1, "Lightweight High Capacity Tank", "PlasteelTank"),
+    35002: (1, "Vehicle Upgrade Console", "BaseUpgradeConsole"),
+    35003: (1, "Ultra Glide Fins", "UltraGlideFins"),
+    35008: (1, "Alien Containment", "BaseWaterPark"),
+    35014: (1, "Cyclops Shield Generator", "CyclopsShieldModule"),
+    35015: (1, "Cyclops Depth Module MK1", "CyclopsHullModule1"),
+    35020: (4, "Cyclops Bridge Fragment", "CyclopsBridgeFragment"),
+    35021: (4, "Cyclops Engine Fragment", "CyclopsEngineFragment"),
+    35022: (4, "Cyclops Hull Fragment", "CyclopsHullFragment"),
+    35024: (3, "Laser Cutter Fragment", "LaserCutterFragment"),
+    35026: (5, "Mobile Vehicle Bay Fragment", "ConstructorFragment"),
+    35027: (3, "Modification Station Fragment", "WorkbenchFragment"),
+    35028: (2, "Moonpool Fragment", "MoonpoolFragment"),
+    35032: (6, "Prawn Suit Fragment", "ExosuitFragment"),
+    35038: (5, "Seamoth Fragment", "SeamothFragment"),
+    35039: (2, "Stasis Rifle Fragment", "StasisRifleFragment"),
+    35041: (4, "Seaglide Fragment", "SeaglideFragment"),
+    35042: (1, "Radiation Suit", "RadiationSuit"),
+    35043: (2, "Propulsion Cannon Fragment", "PropulsionCannonFragment"),
+    35044: (1, "Neptune Launch Platform", "RocketBase"),
+    35045: (1, "Ion Power Cell", "PrecursorIonPowerCell"),
+    35053: (1, "Multipurpose Room", "BaseRoom"),
+    35075: (1, "Ion Battery", "PrecursorIonBattery"),
+    35076: (1, "Neptune Gantry", "RocketBaseLadder"),
+    35077: (1, "Neptune Boosters", "RocketStage1"),
+    35078: (1, "Neptune Fuel Reserve", "RocketStage2"),
+    35079: (1, "Neptune Cockpit", "RocketStage3"),
+    35081: (1, "Ultra High Capacity Tank", "HighCapacityTank"),
+    35082: (1, "Large Room", "BaseLargeRoom"),
+}
+data = [{'id': k, 'count': v[0], 'name': v[1]} for k, v in items.items()]
+import json
+
+print(json.dumps(data))
