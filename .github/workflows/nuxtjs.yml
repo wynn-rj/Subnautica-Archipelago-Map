@@ -61,6 +61,13 @@ jobs:
           static_site_generator: nuxt
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Debug Nuxt configuration
+        run: |
+          git rev-parse HEAD
+          node --version
+          npm --version
+          cat nuxt.config.ts
+          npm ls nuxt vite vue leaflet
       - name: Static HTML export with Nuxt
         run: ${{ steps.detect-package-manager.outputs.manager }} run generate
         env:
