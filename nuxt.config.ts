@@ -4,9 +4,6 @@ export default defineNuxtConfig({
   modules: ["@vueuse/nuxt", "@pinia/nuxt", "@nuxtjs/tailwindcss"],
   compatibilityDate: "2026-10-10",
   ssr: false,
-  app: {
-    baseURL: '/Subnautica-Archipelago-Map/'
-  },
   hooks: {
     'nitro:init'(nitro) {
       nitro.hooks.hook('error' as any, (error: any) => {
