@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'github-pages',
   },
+  app: {
+    baseURL: '/Subnautica-Archipelago-Map/'
+  },
   hooks: {
     'nitro:init'(nitro) {
       nitro.hooks.hook('error' as any, (error: any) => {
