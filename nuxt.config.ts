@@ -4,14 +4,6 @@ export default defineNuxtConfig({
   modules: ["@vueuse/nuxt", "@pinia/nuxt", "@nuxtjs/tailwindcss"],
   compatibilityDate: "2026-10-10",
   ssr: false,
-  nitro: {
-    preset: 'github-pages',
-    prerender: {
-      failOnError: false,
-      routes: ['/404.html', '/200.html'],
-      crawlLinks: false,
-    }
-  },
   app: {
     baseURL: '/Subnautica-Archipelago-Map/'
   },
