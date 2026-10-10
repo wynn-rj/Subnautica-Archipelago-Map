@@ -1,53 +1,37 @@
 <script lang="ts" setup>
-import {
-  CRS,
-  control,
-  icon,
-  imageOverlay,
-  map,
-  marker,
-  type LatLngBoundsExpression,
-  type Marker,
-} from "leaflet";
+import type { LatLngBoundsExpression, Marker, Icon, IconOptions } from 'leaflet'
 
 const { height, width } = useWindowSize();
 const locationMarkers = shallowReactive<Map<number, Marker | undefined>>(
   new Map()
 );
-const [greenIcon, orangeIcon, redIcon, done] = [
-  "green",
-  "orange",
-  "red",
-  "done",
-].map((color) => {
-  return icon({
-    iconUrl: `marker-${color}.png`,
-    shadowUrl: "marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    tooltipAnchor: [16, -28],
-    shadowSize: [41, 41],
-  });
-});
+
+type IconMap = {
+  green: Icon<IconOptions>
+  orange: Icon<IconOptions>
+  red: Icon<IconOptions>
+  done: Icon<IconOptions>
+}
+const iconMap = shallowRef<IconMap>()
 
 const archipelago = useArchipelagoStore();
 
-function getIcon(location: CheckLocation) {
-  if (!archipelago.reachableLocations.has(location.id)) return redIcon;
+function getIcon(location: CheckLocation, icons: IconMap) {
+  if (!archipelago.reachableLocations.has(location.id)) return icons.red;
   return location.far && !archipelago.completedItems.has(ItemIDs.Seaglide)
-    ? orangeIcon
-    : greenIcon;
+    ? icons.orange
+    : icons.green;
 }
 
 function updateIcons() {
   console.log("Checked: ", archipelago.checkedLocations);
   console.log("Have: ", archipelago.completedItems);
+  const icons = iconMap.value
   LOCATIONS.forEach((loc) => {
     const marker = locationMarkers.get(loc.id);
     if (!marker) return;
-    if (!archipelago.checkedLocations.includes(loc.id)) {
-      marker.setIcon(getIcon(loc));
+    if (!archipelago.checkedLocations.includes(loc.id) && icons) {
+      marker.setIcon(getIcon(loc, icons));
       return;
     }
     console.log("Disabling: ", loc.name, marker.getIcon());
@@ -69,7 +53,34 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  const {
+    CRS,
+    control,
+    icon,
+    imageOverlay,
+    map,
+    marker,
+  } = await import("leaflet");
+
+  const icons = ["green", "orange", "red", "done"].map((color) => {
+    return icon({
+      iconUrl: `marker-${color}.png`,
+      shadowUrl: "marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41],
+    });
+  });
+  iconMap.value = {
+    green: icons[0]!,
+    orange: icons[1]!,
+    red: icons[2]!,
+    done: icons[3]!,
+  }
+
   const interactiveMap = map("interactive-map", {
     crs: CRS.Simple,
     minZoom: -3,
@@ -86,7 +97,7 @@ onMounted(() => {
 
   LOCATIONS.forEach((loc) => {
     const requiredItems = [...loc.needed_items]
-      .map((id) => `<li>${ITEMS[id].name}</li>`)
+      .map((id) => `<li>${ITEMS[id]?.name ?? "Unknown"}</li>`)
       .join("");
     const cur = marker([loc.position.z, loc.position.x])
       .bindTooltip(loc.name)
