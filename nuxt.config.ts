@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   ssr: false,
   nitro: {
     preset: 'github-pages',
+    prerender: {
+      routes: ['/404.html', '/200.html'],
+      crawlLinks: false,
+    }
   },
   app: {
     baseURL: '/Subnautica-Archipelago-Map/'
@@ -15,6 +19,7 @@ export default defineNuxtConfig({
       nitro.hooks.hook('error' as any, (error: any) => {
         console.error('NITRO ERROR DETAILS:', error)
         console.error(error.stack)
+        throw error;
       })
     }
   }
