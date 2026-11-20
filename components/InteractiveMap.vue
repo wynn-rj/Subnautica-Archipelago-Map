@@ -74,12 +74,13 @@ onMounted(async () => {
       shadowSize: [41, 41],
     });
   });
-  iconMap.value = {
+  const mapIcons = {
     green: icons[0]!,
     orange: icons[1]!,
     red: icons[2]!,
     done: icons[3]!,
   }
+  iconMap.value = mapIcons;
 
   const interactiveMap = map("interactive-map", {
     crs: CRS.Simple,
@@ -99,7 +100,7 @@ onMounted(async () => {
     const requiredItems = [...loc.needed_items]
       .map((id) => `<li>${ITEMS[id]?.name ?? "Unknown"}</li>`)
       .join("");
-    const cur = marker([loc.position.z, loc.position.x])
+    const cur = marker([loc.position.z, loc.position.x], { icon: mapIcons.red })
       .bindTooltip(loc.name)
       .bindPopup(
         `<div class="text-white">
