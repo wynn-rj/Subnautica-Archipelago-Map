@@ -48,7 +48,7 @@ watch(
     () => archipelago.completedItems,
     () => archipelago.maxDepth,
   ],
-  (connected) => {
+  ([connected]) => {
     if (connected) updateIcons();
   }
 );
@@ -124,6 +124,7 @@ onMounted(async () => {
       .addTo(interactiveMap);
     locationMarkers.set(loc.id, cur);
   });
+  if (archipelago.connected) updateIcons();
 });
 </script>
 

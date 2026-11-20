@@ -112,23 +112,24 @@ export const useArchipelagoStore = defineStore("archipelago", () => {
 
   watch(
     clientRef,
-    () => {
-      const client = clientRef.value;
-      client.messages.on("connected", () => nextTick(updateState));
-      client.messages.on("collected", () => nextTick(updateState));
+    (client, _, onCleanup) => {
+      function updateItems() {
+        items.value = client.items.received
+          .filter((item) => item.id in ITEMS)
+          .reduce((map, cur) => {
+            map.set(cur.id, {
+              current: (map.get(cur.id)?.current ?? 0) + 1,
+              total: ITEMS[cur.id].count,
+            });
+            return map;
+          }, new Map() as ItemMap);
+      }
 
-      client.messages.on("itemSent", () => {
-        nextTick(() => {
-          items.value = client.items.received
-            .filter((item) => item.id in ITEMS)
-            .reduce((map, cur) => {
-              map.set(cur.id, {
-                current: (map.get(cur.id)?.current ?? 0) + 1,
-                total: ITEMS[cur.id].count,
-              });
-              return map;
-            }, new Map() as ItemMap);
-        });
+      client.socket.on("connected", updateState).on("roomUpdate", updateState);
+      client.items.on("itemsReceived", updateItems);
+      onCleanup(() => {
+        client.socket.off("connected", updateState).off("roomUpdate", updateState);
+        client.items.off("itemsReceived", updateItems);
       });
     },
     { immediate: true }
